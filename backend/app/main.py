@@ -5,6 +5,7 @@ from app.routers.courses import router as courses_router
 from app.routers.course_outcomes import router as course_outcomes_router
 from app.routers.students import router as students_router
 from app.routers.scores import router as scores_router
+from app.routers.attainment import router as attainment_router
 
 
 @asynccontextmanager
@@ -24,6 +25,7 @@ app.include_router(courses_router)
 app.include_router(course_outcomes_router)
 app.include_router(students_router)
 app.include_router(scores_router)
+app.include_router(attainment_router)
 
 @app.get("/")
 async def root():

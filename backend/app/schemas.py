@@ -52,3 +52,14 @@ class ScoreResponse(ScoreBase):
     student_id: int
     course_outcome_id: int
     model_config = ConfigDict(from_attributes=True)
+
+# Attainment
+class AttainmentResponse(BaseModel):
+    course_outcome_id: int
+    course_outcome_code: str
+
+    threshold: float
+    total_students: int
+
+    students_meeting_threshold: int
+    attainment_percentage: float
