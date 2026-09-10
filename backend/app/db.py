@@ -6,10 +6,13 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 from sqlalchemy.orm import DeclarativeBase
+import os
 
 
-DATABASE_URL = "sqlite+aiosqlite:///./rubrix.db"
-
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "sqlite+aiosqlite:///./rubrix.db",
+)
 
 class Base(DeclarativeBase):
     pass
