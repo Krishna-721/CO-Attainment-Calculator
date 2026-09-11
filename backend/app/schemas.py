@@ -10,6 +10,13 @@ class CourseBase(BaseModel):
 class CourseCreate(CourseBase):
     pass
 
+class CourseUpdate(CourseBase):
+    pass
+
+class CoursePatch(BaseModel):
+    code: str | None = Field(default=None, min_length=1, max_length=20)
+    name: str | None = Field(default=None, min_length=1, max_length=100)
+
 class CourseResponse(CourseBase):
     id: int
     model_config = ConfigDict(from_attributes=True)
@@ -21,6 +28,14 @@ class CourseOutcomeBase(BaseModel):
 
 class CourseOutcomeCreate(CourseOutcomeBase):
     course_id: int
+
+class CourseOutcomeUpdate(CourseOutcomeBase):
+    course_id: int
+
+class CourseOutcomePatch(BaseModel):
+    code: str | None = Field(default=None, min_length=1, max_length=20)
+    description: str | None = Field(default=None, min_length=1, max_length=255)
+    course_id: int | None = None
 
 class CourseOutcomeResponse(CourseOutcomeBase):
     id: int
@@ -35,6 +50,13 @@ class StudentBase(BaseModel):
 class StudentCreate(StudentBase):
     pass
 
+class StudentUpdate(StudentBase):
+    pass
+
+class StudentPatch(BaseModel):
+    roll_number: str | None = Field(default=None, min_length=1, max_length=30)
+    name: str | None = Field(default=None, min_length=1, max_length=100)
+
 class StudentResponse(StudentBase):
     id: int
     model_config = ConfigDict(from_attributes=True)
@@ -46,6 +68,15 @@ class ScoreBase(BaseModel):
 class ScoreCreate(ScoreBase):
     student_id: int
     course_outcome_id: int
+
+class ScoreUpdate(ScoreBase):
+    student_id: int
+    course_outcome_id: int
+
+class ScorePatch(BaseModel):
+    marks: float | None = Field(default=None, ge=0)
+    student_id: int | None = None
+    course_outcome_id: int | None = None
 
 class ScoreResponse(ScoreBase):
     id: int

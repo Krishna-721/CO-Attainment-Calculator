@@ -1,5 +1,9 @@
+import os
 from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 from app.db import init_db
 from app.routers.courses import router as courses_router
 from app.routers.course_outcomes import router as course_outcomes_router
@@ -19,6 +23,23 @@ app = FastAPI(
     description="Course Outcome attainment calculator for higher education.",
     version="1.0.0",
     lifespan=lifespan,
+)
+
+cors_origins = [
+    origin.strip()
+    for origin in os.getenv(
+        "CORS_ORIGINS",
+        "http://localhost:5173,http://127.0.0.1:5173",
+    ).split(",")
+    if origin.strip()
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=cors_origins,
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(courses_router)
