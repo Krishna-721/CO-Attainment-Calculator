@@ -1,1 +1,8 @@
-export default function ProgressBar({ value }) { const safe = Math.max(0, Math.min(100, Number(value) || 0)); return <div className="progress" aria-label={`${safe}% attainment`}><span style={{ width: `${safe}%` }} /></div> }
+export default function ProgressBar({ value }) {
+  const safe = Math.max(0, Math.min(100, Number(value) || 0));
+  return (
+    <div className="progress" aria-label={`${safe}% attainment`}>
+      <span style={{ width: `${safe}%` }} />
+    </div>
+  );
+}

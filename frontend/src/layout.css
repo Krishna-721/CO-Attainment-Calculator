@@ -73,6 +73,20 @@
   flex: 0 0 auto;
 }
 
+.course-attainment .summary-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(100px, 1fr) auto auto;
+  gap: 16px;
+}
+
+.course-attainment .summary-row > span {
+  min-width: 0;
+}
+
+.course-attainment .summary-row .progress {
+  width: 100%;
+}
+
 .course-grid {
   align-items: stretch;
 }
@@ -158,6 +172,16 @@
 
   .section-head .primary-button {
     width: 100%;
+  }
+
+  .course-attainment .summary-row {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 10px;
+  }
+
+  .course-attainment .summary-row .progress {
+    grid-column: 1 / -1;
+    grid-row: 2;
   }
 
   .calculator {

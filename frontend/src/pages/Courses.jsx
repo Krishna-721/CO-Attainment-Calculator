@@ -1,6 +1,127 @@
-import { useCallback, useEffect, useState } from "react"
-import { createCourse, deleteCourse, getCourseOutcomes, getCourses, getStudents, updateCourse } from "../services/api"
-import CourseCard from "../Components/courses/CourseCard"
-import EntityForm from "../Components/ui/EntityForm"
-import { EmptyState, ErrorState, LoadingState } from "../Components/ui/States"
-export default function Courses({ navigate }) { const [data, setData] = useState(null); const [error, setError] = useState(""); const [form, setForm] = useState(null); const [saving, setSaving] = useState(false); const load = useCallback(async () => { try { setError(""); setData(null); const [courses, students] = await Promise.all([getCourses(), getStudents()]); const outcomes = await Promise.all(courses.map((course) => getCourseOutcomes(course.id))); setData({ courses, students, outcomes }) } catch (err) { setError(err.message) } }, []); useEffect(() => { load() }, [load]); const save = async (values) => { try { setSaving(true); setError(""); if (form.course) await updateCourse(form.course.id, values); else await createCourse(values); setForm(null); await load() } catch (err) { setError(err.message) } finally { setSaving(false) } }; const remove = async (course) => { if (!window.confirm(`Delete ${course.code}?`)) return; try { setError(""); await deleteCourse(course.id); await load() } catch (err) { setError(err.message) } }; return <div className="page"><div className="page-title"><span>COURSES</span><h1>Courses</h1><p>Manage courses and view their course outcomes.</p></div><div className="section-head"><div><h2>Course catalogue</h2><p>Create, update, or remove an academic course.</p></div><button type="button" className="primary-button" onClick={() => setForm({})}>Add course</button></div>{form && <EntityForm title={form.course ? "Edit course" : "Add course"} initialValues={form.course || { code: "", name: "" }} fields={[{ name: "code", label: "Course code", placeholder: "e.g. CS301" }, { name: "name", label: "Course name", placeholder: "e.g. Data Structures" }]} onSubmit={save} onCancel={() => setForm(null)} busy={saving} error={error} />}{error && !form && <ErrorState title="Failed to load courses" message={error} onRetry={load} />}{!error && !data ? <LoadingState label="Loading courses..." /> : data?.courses.length ? <div className="course-grid">{data.courses.map((course, index) => <CourseCard key={course.id} course={course} outcomeCount={data.outcomes[index].length} studentCount={data.students.length} onOpen={() => navigate(`/courses/${course.id}`)} onEdit={() => setForm({ course })} onDelete={() => remove(course)} />)}</div> : data && <EmptyState label="No courses found." />}</div> }
+import { useCallback, useEffect, useState } from "react";
+import {
+  createCourse,
+  deleteCourse,
+  getCourseOutcomes,
+  getCourses,
+  getStudents,
+  updateCourse,
+} from "../services/api";
+import CourseCard from "../Components/courses/CourseCard";
+import EntityForm from "../Components/ui/EntityForm";
+import { EmptyState, ErrorState, LoadingState } from "../Components/ui/States";
+export default function Courses({ navigate }) {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState("");
+  const [form, setForm] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const load = useCallback(async () => {
+    try {
+      setError("");
+      setData(null);
+      const [courses, students] = await Promise.all([
+        getCourses(),
+        getStudents(),
+      ]);
+      const outcomes = await Promise.all(
+        courses.map((course) => getCourseOutcomes(course.id)),
+      );
+      setData({ courses, students, outcomes });
+    } catch (err) {
+      setError(err.message);
+    }
+  }, []);
+  useEffect(() => {
+    load();
+  }, [load]);
+  const save = async (values) => {
+    try {
+      setSaving(true);
+      setError("");
+      if (form.course) await updateCourse(form.course.id, values);
+      else await createCourse(values);
+      setForm(null);
+      await load();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSaving(false);
+    }
+  };
+  const remove = async (course) => {
+    if (!window.confirm(`Delete ${course.code}?`)) return;
+    try {
+      setError("");
+      await deleteCourse(course.id);
+      await load();
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+  return (
+    <div className="page">
+      <div className="page-title">
+        <span>COURSES</span>
+        <h1>Courses</h1>
+        <p>Manage courses and view their course outcomes.</p>
+      </div>
+      <div className="section-head">
+        <div>
+          <h2>Course catalogue</h2>
+          <p>Create, update, or remove an academic course.</p>
+        </div>
+        <button
+          type="button"
+          className="primary-button"
+          onClick={() => setForm({})}
+        >
+          Add course
+        </button>
+      </div>
+      {form && (
+        <EntityForm
+          title={form.course ? "Edit course" : "Add course"}
+          initialValues={form.course || { code: "", name: "" }}
+          fields={[
+            { name: "code", label: "Course code", placeholder: "e.g. CS301" },
+            {
+              name: "name",
+              label: "Course name",
+              placeholder: "e.g. Data Structures",
+            },
+          ]}
+          onSubmit={save}
+          onCancel={() => setForm(null)}
+          busy={saving}
+          error={error}
+        />
+      )}
+      {error && !form && (
+        <ErrorState
+          title="Failed to load courses"
+          message={error}
+          onRetry={load}
+        />
+      )}
+      {!error && !data ? (
+        <LoadingState label="Loading courses..." />
+      ) : data?.courses.length ? (
+        <div className="course-grid">
+          {data.courses.map((course, index) => (
+            <CourseCard
+              key={course.id}
+              course={course}
+              outcomeCount={data.outcomes[index].length}
+              studentCount={data.students.length}
+              onOpen={() => navigate(`/courses/${course.id}`)}
+              onEdit={() => setForm({ course })}
+              onDelete={() => remove(course)}
+            />
+          ))}
+        </div>
+      ) : (
+        data && <EmptyState label="No courses found." />
+      )}
+    </div>
+  );
+}

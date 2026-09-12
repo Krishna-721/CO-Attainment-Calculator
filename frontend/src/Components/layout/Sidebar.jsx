@@ -2,25 +2,27 @@ const items = [
   { label: "Dashboard", path: "/", icon: "▦" },
   { label: "Courses", path: "/courses", icon: "▣" },
   { label: "Students", path: "/students", icon: "◉" },
-]
+];
 
 export default function Sidebar({ path, navigate, close }) {
   const attainmentActive =
-    path === "/attainment" || path.startsWith("/attainment/")
+    path === "/attainment" || path.startsWith("/attainment/");
 
   const isActive = (item) =>
     path === item.path ||
-    (item.path === "/courses" && path.startsWith("/courses/"))
+    (item.path === "/courses" && path.startsWith("/courses/"));
 
   const handleNavigate = (destination) => {
-    navigate(destination)
-    close?.()
-  }
+    navigate(destination);
+    close?.();
+  };
 
   return (
     <aside className="sidebar">
       <div className="brand">
-        <strong><i>R</i>UBRIX</strong>
+        <strong>
+          <i>R</i>UBRIX
+        </strong>
         <span>CO ATTAINMENT</span>
       </div>
 
@@ -53,5 +55,5 @@ export default function Sidebar({ path, navigate, close }) {
         for outcome-based learning.
       </p>
     </aside>
-  )
+  );
 }

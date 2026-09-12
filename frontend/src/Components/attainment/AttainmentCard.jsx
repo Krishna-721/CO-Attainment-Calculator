@@ -1,4 +1,4 @@
-import ProgressBar from "../ui/ProgressBar"
+import ProgressBar from "../ui/ProgressBar";
 
 export default function AttainmentCard({ result, description }) {
   return (
@@ -12,9 +12,11 @@ export default function AttainmentCard({ result, description }) {
       </div>
       <ProgressBar value={result.attainment_percentage} />
       <p className="attainment-detail">
-        <b>{result.students_meeting_threshold} / {result.total_students}</b>{" "}
+        <b>
+          {result.students_meeting_threshold} / {result.total_students}
+        </b>{" "}
         students met the {result.threshold}% threshold
       </p>
     </article>
-  )
+  );
 }

@@ -22,5 +22,5 @@ export default function Header({ onMenu }) {
         </div>
       </div>
     </header>
-  )
+  );
 }

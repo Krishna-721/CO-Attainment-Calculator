@@ -1,92 +1,92 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import {
   getCourse,
   getCourseAttainment,
   getCourseOutcomes,
   getCourses,
-} from "../services/api"
-import AttainmentCard from "../Components/attainment/AttainmentCard"
-import { EmptyState, ErrorState, LoadingState } from "../Components/ui/States"
+} from "../services/api";
+import AttainmentCard from "../Components/attainment/AttainmentCard";
+import { EmptyState, ErrorState, LoadingState } from "../Components/ui/States";
 
 export default function Attainment({ courseId, navigate }) {
-  const [courses, setCourses] = useState(null)
-  const [course, setCourse] = useState(null)
-  const [outcomes, setOutcomes] = useState([])
-  const [results, setResults] = useState(null)
-  const [threshold, setThreshold] = useState("50")
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
+  const [courses, setCourses] = useState(null);
+  const [course, setCourse] = useState(null);
+  const [outcomes, setOutcomes] = useState([]);
+  const [results, setResults] = useState(null);
+  const [threshold, setThreshold] = useState("50");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const loadCourses = useCallback(async () => {
     try {
-      setError("")
-      setCourses(await getCourses())
+      setError("");
+      setCourses(await getCourses());
     } catch (err) {
-      setError(err.message)
+      setError(err.message);
     }
-  }, [])
+  }, []);
 
   const loadCourse = useCallback(async () => {
-    if (!courseId) return
+    if (!courseId) return;
 
     try {
-      setError("")
-      setLoading(true)
+      setError("");
+      setLoading(true);
       const [courseData, outcomeData] = await Promise.all([
         getCourse(courseId),
         getCourseOutcomes(courseId),
-      ])
-      setCourse(courseData)
-      setOutcomes(outcomeData)
-      setResults(null)
+      ]);
+      setCourse(courseData);
+      setOutcomes(outcomeData);
+      setResults(null);
     } catch (err) {
-      setError(err.message)
+      setError(err.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [courseId])
+  }, [courseId]);
 
   useEffect(() => {
-    loadCourses()
-  }, [loadCourses])
+    loadCourses();
+  }, [loadCourses]);
 
   useEffect(() => {
-    loadCourse()
-  }, [loadCourse])
+    loadCourse();
+  }, [loadCourse]);
 
   const calculate = async () => {
-    const value = Number(threshold)
+    const value = Number(threshold);
     if (!Number.isFinite(value) || value < 0 || value > 100) {
-      setError("Threshold must be a number from 0 to 100.")
-      return
+      setError("Threshold must be a number from 0 to 100.");
+      return;
     }
 
     try {
-      setError("")
-      setLoading(true)
-      setResults(await getCourseAttainment(courseId, value))
+      setError("");
+      setLoading(true);
+      setResults(await getCourseAttainment(courseId, value));
     } catch (err) {
-      setError(err.message)
+      setError(err.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const summary = useMemo(() => {
-    if (!results?.length) return null
+    if (!results?.length) return null;
 
     const average =
       results.reduce(
         (sum, result) => sum + Number(result.attainment_percentage),
         0,
-      ) / results.length
+      ) / results.length;
     const meeting = results.filter(
       (result) => Number(result.attainment_percentage) >= 50,
-    ).length
+    ).length;
 
-    return { average, meeting }
-  }, [results])
+    return { average, meeting };
+  }, [results]);
 
   if (!courseId) {
     return (
@@ -131,7 +131,7 @@ export default function Attainment({ courseId, navigate }) {
           <EmptyState label="No courses found." />
         )}
       </div>
-    )
+    );
   }
 
   if (loading && !course) {
@@ -139,7 +139,7 @@ export default function Attainment({ courseId, navigate }) {
       <div className="page attainment-page">
         <LoadingState label="Loading attainment analytics..." />
       </div>
-    )
+    );
   }
 
   if (!course && error) {
@@ -151,12 +151,12 @@ export default function Attainment({ courseId, navigate }) {
           onRetry={loadCourse}
         />
       </div>
-    )
+    );
   }
 
   const descriptions = new Map(
     outcomes.map((outcome) => [outcome.code, outcome.description]),
-  )
+  );
 
   return (
     <div className="page">
@@ -247,7 +247,7 @@ export default function Attainment({ courseId, navigate }) {
         <EmptyState label="Choose a threshold and calculate to view outcome analytics." />
       )}
     </div>
-  )
+  );
 }
 
 function PageIntro({ eyebrow, title, description }) {
@@ -257,7 +257,7 @@ function PageIntro({ eyebrow, title, description }) {
       <h1>{title}</h1>
       <p>{description}</p>
     </div>
-  )
+  );
 }
 
 function Metric({ label, value, note }) {
@@ -267,5 +267,5 @@ function Metric({ label, value, note }) {
       <strong>{value}</strong>
       <span>{note}</span>
     </article>
-  )
+  );
 }

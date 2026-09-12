@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
 export default function EntityForm({
   title,
@@ -9,20 +9,20 @@ export default function EntityForm({
   busy,
   error,
 }) {
-  const [values, setValues] = useState(initialValues)
+  const [values, setValues] = useState(initialValues);
 
   useEffect(() => {
-    setValues(initialValues)
-  }, [initialValues])
+    setValues(initialValues);
+  }, [initialValues]);
 
   const change = (name, value) => {
-    setValues((current) => ({ ...current, [name]: value }))
-  }
+    setValues((current) => ({ ...current, [name]: value }));
+  };
 
   const submit = (event) => {
-    event.preventDefault()
-    onSubmit(values)
-  }
+    event.preventDefault();
+    onSubmit(values);
+  };
 
   return (
     <form className="entity-form" onSubmit={submit}>
@@ -50,6 +50,21 @@ export default function EntityForm({
                 placeholder={field.placeholder}
                 rows="3"
               />
+            ) : field.type === "select" ? (
+              <select
+                required={field.required !== false}
+                value={values[field.name] ?? ""}
+                onChange={(event) => change(field.name, event.target.value)}
+              >
+                <option value="" disabled>
+                  {field.placeholder || `Select ${field.label.toLowerCase()}`}
+                </option>
+                {field.options.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
             ) : (
               <input
                 required={field.required !== false}
@@ -66,7 +81,11 @@ export default function EntityForm({
         ))}
       </div>
 
-      {error && <p className="form-error" role="alert">{error}</p>}
+      {error && (
+        <p className="form-error" role="alert">
+          {error}
+        </p>
+      )}
 
       <div className="form-actions">
         <button type="button" className="secondary-button" onClick={onCancel}>
@@ -77,5 +96,5 @@ export default function EntityForm({
         </button>
       </div>
     </form>
-  )
+  );
 }
