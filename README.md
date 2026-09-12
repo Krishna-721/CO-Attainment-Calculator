@@ -1,3 +1,5 @@
+﻿Reference Code - RX-DFFE1A
+
 # CO Attainment
 
 CO Attainment is a course-outcome analytics application for managing
@@ -23,8 +25,9 @@ course workspaces, score tables, and threshold-based attainment analytics.
 
 - React
 - Vite
-- Tailwind CSS
-- JavaScript
+- Tailwind CSS v4
+- JavaScript (JSX)
+- Plain `fetch` API calls
 
 ## Project Structure
 
@@ -55,8 +58,7 @@ rubrix-co-attainment/
 │   │   ├── services/
 │   │   ├── App.jsx
 │   │   ├── main.jsx
-│   │   ├── index.css
-│   │   └── layout.css
+│   │   └── index.css
 │   ├── .env.example
 │   ├── package.json
 │   └── vite.config.js
@@ -323,7 +325,10 @@ SQLite
 The frontend communicates with the backend through the API helpers in
 `frontend/src/services/api.js`. Pages own loading, mutation, and error state,
 while shared components provide forms, cards, tables, progress bars, and
-status states.
+status states. Tailwind utility classes provide the component styling,
+responsive layouts, spacing, colors, states, and mobile navigation behavior.
+`frontend/src/index.css` contains the Tailwind import, shared theme color
+tokens, and minimal global base resets.
 
 ## Validation Status
 
