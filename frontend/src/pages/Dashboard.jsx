@@ -12,10 +12,10 @@ import ProgressBar from "../Components/ui/ProgressBar";
 import { EmptyState, ErrorState, LoadingState } from "../Components/ui/States";
 
 const Metric = ({ label, value, note }) => (
-  <article className="metric">
-    <p>{label}</p>
-    <strong>{value}</strong>
-    <span>{note}</span>
+  <article className="rounded-xl border border-line bg-panel p-[19px]">
+    <p className="text-[10px] font-bold tracking-[0.09em] text-muted">{label}</p>
+    <strong className="mt-3.5 block text-[28px]">{value}</strong>
+    <span className="mt-1.5 block text-[11px] text-subtle">{note}</span>
   </article>
 );
 
@@ -100,7 +100,7 @@ export default function Dashboard({ navigate }) {
 
   return (
     <PageHeader>
-      <section className="metrics">
+      <section className="grid grid-cols-2 gap-3.5 lg:grid-cols-4">
         <Metric
           label="TOTAL COURSES"
           value={data.courses.length}
@@ -130,7 +130,7 @@ export default function Dashboard({ navigate }) {
       </section>
 
       <section>
-        <div className="section-head">
+        <div className="mb-3.5 flex items-end justify-between gap-5">
           <div>
             <h2>Your Courses</h2>
             <p>Select a course to view student performance.</p>
@@ -138,7 +138,7 @@ export default function Dashboard({ navigate }) {
 
           <button
             type="button"
-            className="text-button"
+            className="rounded-md border border-transparent px-3 py-2 text-xs font-bold text-accent hover:border-[#3a2c24] hover:bg-[#2a211c]"
             onClick={() => navigate("/courses")}
           >
             View all →
@@ -146,7 +146,7 @@ export default function Dashboard({ navigate }) {
         </div>
 
         {data.courses.length ? (
-          <div className="course-grid">
+          <div className="grid gap-3.5 md:grid-cols-2 xl:grid-cols-3">
             {data.details.map(({ course, outcomes }) => (
               <CourseCard
                 key={course.id}
@@ -162,9 +162,9 @@ export default function Dashboard({ navigate }) {
         )}
       </section>
 
-      <div className="dashboard-bottom">
-        <section className="surface course-attainment">
-          <div className="section-head">
+      <div className="grid gap-3.5 lg:grid-cols-[1.1fr_.9fr]">
+        <section className="rounded-xl border border-line bg-panel p-5">
+          <div className="mb-3.5 flex items-end justify-between gap-5">
             <div>
               <h2>Course Attainment</h2>
               <p>Average CO attainment at the default 50% threshold.</p>
@@ -172,12 +172,12 @@ export default function Dashboard({ navigate }) {
           </div>
 
           {courseAverages.length ? (
-            <div className="outcome-list">
+            <div className="grid gap-4">
               {courseAverages.map(({ course, average }) => (
                 <button
                   type="button"
                   key={course.id}
-                  className="summary-row"
+                  className="grid w-full grid-cols-[minmax(0,1fr)_minmax(100px,1fr)_auto_auto] items-center gap-4 border-0 border-b border-line bg-transparent py-3.5 text-left text-ink max-sm:grid-cols-[minmax(0,1fr)_auto_auto]"
                   onClick={() => navigate(`/courses/${course.id}`)}
                 >
                   <span>
@@ -198,8 +198,8 @@ export default function Dashboard({ navigate }) {
           )}
         </section>
 
-        <section className="surface">
-          <div className="section-head">
+        <section className="rounded-xl border border-line bg-panel p-5">
+          <div className="mb-3.5 flex items-end justify-between gap-5">
             <div>
               <h2>Course Summary</h2>
               <p>Your current academic courses.</p>
@@ -210,7 +210,7 @@ export default function Dashboard({ navigate }) {
             <button
               type="button"
               key={course.id}
-              className="summary-row"
+              className="flex w-full items-center justify-between border-0 border-b border-line bg-transparent py-3.5 text-left text-ink"
               onClick={() => navigate(`/courses/${course.id}`)}
             >
               <span>
@@ -229,11 +229,11 @@ export default function Dashboard({ navigate }) {
 
 function PageHeader({ children }) {
   return (
-    <div className="page">
-      <div className="page-title">
-        <span>OVERVIEW</span>
-        <h1>Dashboard</h1>
-        <p>Course performance and outcome attainment overview.</p>
+    <div className="grid w-full max-w-[1320px] gap-7">
+      <div className="max-w-[760px]">
+        <span className="text-[10px] font-bold tracking-[0.16em] text-subtle">OVERVIEW</span>
+        <h1 className="my-1.5 text-[24px] leading-tight tracking-[-0.03em] sm:text-[28px]">Dashboard</h1>
+        <p className="m-0 text-sm text-muted">Course performance and outcome attainment overview.</p>
       </div>
 
       {children}

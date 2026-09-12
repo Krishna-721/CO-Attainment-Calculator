@@ -25,12 +25,12 @@ export default function EntityForm({
   };
 
   return (
-    <form className="entity-form" onSubmit={submit}>
-      <div className="form-head">
-        <h3>{title}</h3>
+    <form className="grid w-full gap-4 rounded-xl border border-accent bg-panel p-5" onSubmit={submit}>
+      <div className="flex items-center justify-between gap-2.5">
+        <h3 className="m-0 text-base">{title}</h3>
         <button
           type="button"
-          className="icon-button"
+          className="inline-flex h-8 w-8 items-center justify-center rounded-full border-0 bg-transparent text-xl text-muted hover:bg-[#2a2a2a] hover:text-ink"
           onClick={onCancel}
           aria-label="Close form"
         >
@@ -38,12 +38,13 @@ export default function EntityForm({
         </button>
       </div>
 
-      <div className="form-fields">
+      <div className="grid gap-3.5 md:grid-cols-2">
         {fields.map((field) => (
-          <label key={field.name}>
+          <label className="grid gap-1.5 text-xs text-muted" key={field.name}>
             {field.label}
             {field.type === "textarea" ? (
               <textarea
+                className="w-full rounded-md border border-[#303030] bg-[#121212] p-2.5 text-ink outline-none focus:border-accent"
                 required={field.required !== false}
                 value={values[field.name] ?? ""}
                 onChange={(event) => change(field.name, event.target.value)}
@@ -52,6 +53,7 @@ export default function EntityForm({
               />
             ) : field.type === "select" ? (
               <select
+                className="w-full rounded-md border border-[#303030] bg-[#121212] p-2.5 text-ink outline-none focus:border-accent"
                 required={field.required !== false}
                 value={values[field.name] ?? ""}
                 onChange={(event) => change(field.name, event.target.value)}
@@ -67,6 +69,7 @@ export default function EntityForm({
               </select>
             ) : (
               <input
+                className="w-full rounded-md border border-[#303030] bg-[#121212] p-2.5 text-ink outline-none focus:border-accent"
                 required={field.required !== false}
                 type={field.type || "text"}
                 min={field.min}
@@ -82,16 +85,16 @@ export default function EntityForm({
       </div>
 
       {error && (
-        <p className="form-error" role="alert">
+        <p         className="m-0 text-[13px] text-red-400" role="alert">
           {error}
         </p>
       )}
 
-      <div className="form-actions">
-        <button type="button" className="secondary-button" onClick={onCancel}>
+      <div className="flex flex-wrap items-center justify-end gap-2.5">
+        <button type="button" className="rounded-md border border-[#303030] bg-[#202020] px-3 py-2 text-xs font-bold text-muted hover:border-[#3d3d3d] hover:bg-[#262626] hover:text-ink" onClick={onCancel}>
           Cancel
         </button>
-        <button type="submit" className="primary-button" disabled={busy}>
+        <button type="submit" className="rounded-md bg-accent px-4 py-2.5 text-[13px] font-bold text-white hover:bg-accent-hover disabled:cursor-wait disabled:opacity-70" disabled={busy}>
           {busy ? "Saving..." : "Save"}
         </button>
       </div>

@@ -59,20 +59,20 @@ export default function Courses({ navigate }) {
     }
   };
   return (
-    <div className="page">
-      <div className="page-title">
-        <span>COURSES</span>
-        <h1>Courses</h1>
-        <p>Manage courses and view their course outcomes.</p>
+    <div className="grid w-full max-w-[1320px] gap-7">
+      <div>
+        <span className="text-[10px] font-bold tracking-[0.16em] text-subtle">COURSES</span>
+        <h1 className="my-1.5 text-[28px] leading-tight">Courses</h1>
+        <p className="m-0 text-sm text-muted">Manage courses and view their course outcomes.</p>
       </div>
-      <div className="section-head">
+      <div className="flex items-end justify-between gap-5">
         <div>
           <h2>Course catalogue</h2>
           <p>Create, update, or remove an academic course.</p>
         </div>
         <button
           type="button"
-          className="primary-button"
+          className="rounded-md bg-accent px-4 py-2.5 text-[13px] font-bold text-white hover:bg-accent-hover"
           onClick={() => setForm({})}
         >
           Add course
@@ -106,7 +106,7 @@ export default function Courses({ navigate }) {
       {!error && !data ? (
         <LoadingState label="Loading courses..." />
       ) : data?.courses.length ? (
-        <div className="course-grid">
+        <div className="grid gap-3.5 md:grid-cols-2 xl:grid-cols-3">
           {data.courses.map((course, index) => (
             <CourseCard
               key={course.id}

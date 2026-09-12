@@ -90,7 +90,7 @@ export default function Attainment({ courseId, navigate }) {
 
   if (!courseId) {
     return (
-      <div className="page attainment-page">
+      <div className="grid gap-6">
         <PageIntro
           eyebrow="ANALYTICS"
           title="Course Attainment"
@@ -106,22 +106,22 @@ export default function Attainment({ courseId, navigate }) {
         ) : !courses ? (
           <LoadingState label="Loading courses..." />
         ) : courses.length ? (
-          <div className="course-grid attainment-course-grid">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {courses.map((item) => (
               <button
                 type="button"
-                className="course-card"
+                className="flex min-h-[156px] flex-col justify-between rounded-xl border border-line bg-panel p-[18px] text-left hover:bg-[#242424]"
                 key={item.id}
                 onClick={() => navigate(`/attainment/${item.id}`)}
               >
-                <div className="course-top">
+                <div className="flex justify-between gap-3">
                   <div>
-                    <span className="code">{item.code}</span>
-                    <h2>{item.name}</h2>
+                    <span className="text-xs font-bold tracking-[0.06em] text-accent">{item.code}</span>
+                    <h2 className="mt-1.5 text-base leading-snug">{item.name}</h2>
                   </div>
-                  <span className="arrow">→</span>
+                  <span className="text-xl text-subtle">→</span>
                 </div>
-                <div className="course-meta">
+                <div className="mt-4 text-xs text-muted">
                   <span>Open attainment analytics</span>
                 </div>
               </button>
@@ -136,7 +136,7 @@ export default function Attainment({ courseId, navigate }) {
 
   if (loading && !course) {
     return (
-      <div className="page attainment-page">
+      <div className="grid gap-6">
         <LoadingState label="Loading attainment analytics..." />
       </div>
     );
@@ -144,7 +144,7 @@ export default function Attainment({ courseId, navigate }) {
 
   if (!course && error) {
     return (
-      <div className="page">
+      <div className="grid gap-7">
         <ErrorState
           title="Failed to load attainment"
           message={error}
@@ -159,10 +159,10 @@ export default function Attainment({ courseId, navigate }) {
   );
 
   return (
-    <div className="page">
+    <div className="grid gap-7">
       <button
         type="button"
-        className="back-button"
+        className="w-fit border-0 bg-transparent p-0 text-[13px] font-bold text-accent hover:text-accent-hover"
         onClick={() => navigate("/attainment")}
       >
         ← All courses
@@ -174,7 +174,7 @@ export default function Attainment({ courseId, navigate }) {
         description="Adjust the threshold to see how many students meet each course outcome."
       />
 
-      <section className="calculator">
+      <section className="flex flex-wrap items-end gap-3 rounded-xl border border-line bg-panel p-[18px]">
         <label>
           Threshold (%)
           <input
@@ -188,7 +188,7 @@ export default function Attainment({ courseId, navigate }) {
         </label>
         <button
           type="button"
-          className="primary-button"
+          className="rounded-md bg-accent px-4 py-2.5 text-[13px] font-bold text-white hover:bg-accent-hover disabled:opacity-70"
           onClick={calculate}
           disabled={loading}
         >
@@ -205,7 +205,7 @@ export default function Attainment({ courseId, navigate }) {
       )}
 
       {summary && (
-        <section className="metrics">
+        <section className="grid grid-cols-2 gap-3.5 lg:grid-cols-4">
           <Metric
             label="AVERAGE ATTAINMENT"
             value={`${summary.average.toFixed(1)}%`}
@@ -231,7 +231,7 @@ export default function Attainment({ courseId, navigate }) {
 
       {results ? (
         results.length ? (
-          <div className="attainment-grid">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {results.map((result) => (
               <AttainmentCard
                 key={result.course_outcome_id}
@@ -252,20 +252,20 @@ export default function Attainment({ courseId, navigate }) {
 
 function PageIntro({ eyebrow, title, description }) {
   return (
-    <div className="page-title">
-      <span>{eyebrow}</span>
-      <h1>{title}</h1>
-      <p>{description}</p>
+    <div className="max-w-[820px]">
+      <span className="text-[10px] font-bold tracking-[0.16em] text-subtle">{eyebrow}</span>
+      <h1 className="my-1.5 text-[28px] leading-tight">{title}</h1>
+      <p className="m-0 text-sm text-muted">{description}</p>
     </div>
   );
 }
 
 function Metric({ label, value, note }) {
   return (
-    <article className="metric">
-      <p>{label}</p>
-      <strong>{value}</strong>
-      <span>{note}</span>
+    <article className="rounded-xl border border-line bg-panel p-[19px]">
+      <p className="text-[10px] font-bold tracking-[0.09em] text-muted">{label}</p>
+      <strong className="mt-3.5 block text-[28px]">{value}</strong>
+      <span className="mt-1.5 block text-[11px] text-subtle">{note}</span>
     </article>
   );
 }

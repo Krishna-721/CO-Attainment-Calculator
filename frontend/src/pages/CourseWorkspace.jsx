@@ -106,7 +106,7 @@ export default function CourseWorkspace({ courseId, navigate }) {
   };
   if (error && !data)
     return (
-      <div className="page">
+      <div className="grid gap-7">
         <ErrorState
           title="Failed to load course workspace"
           message={error}
@@ -116,7 +116,7 @@ export default function CourseWorkspace({ courseId, navigate }) {
     );
   if (!data)
     return (
-      <div className="page">
+      <div className="grid gap-7">
         <LoadingState label="Loading course workspace..." />
       </div>
     );
@@ -152,22 +152,22 @@ export default function CourseWorkspace({ courseId, navigate }) {
       step: "0.1",
     }));
   return (
-    <div className="page">
+    <div className="grid gap-7">
       <button
         type="button"
-        className="back-button"
+        className="w-fit border-0 bg-transparent p-0 text-[13px] font-bold text-accent hover:text-accent-hover"
         onClick={() => navigate("/courses")}
       >
         ← Back to Courses
       </button>
-      <div className="workspace-title">
+      <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <span>{data.course.code}</span>
-          <h1>{data.course.name}</h1>
+          <span className="text-[10px] font-bold tracking-[0.16em] text-subtle">{data.course.code}</span>
+          <h1 className="my-1.5 text-[28px] leading-tight">{data.course.name}</h1>
         </div>
         <button
           type="button"
-          className="primary-button"
+          className="rounded-md bg-accent px-4 py-2.5 text-[13px] font-bold text-white hover:bg-accent-hover"
           onClick={() => navigate(`/attainment/${courseId}`)}
         >
           View attainment
@@ -226,29 +226,29 @@ export default function CourseWorkspace({ courseId, navigate }) {
       )}
       {
         <section>
-          <div className="section-head">
+          <div className="mb-3.5 flex items-end justify-between gap-5">
             <div>
               <h2>Course Outcomes</h2>
               <p>{data.outcomes.length} outcomes mapped to this course.</p>
             </div>
             <button
               type="button"
-              className="primary-button"
+              className="rounded-md bg-accent px-4 py-2.5 text-[13px] font-bold text-white hover:bg-accent-hover"
               onClick={() => setForm({ type: "outcome" })}
             >
               Add outcome
             </button>
           </div>
           {data.outcomes.length ? (
-            <div className="outcome-cards">
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {data.outcomes.map((outcome) => (
-                <article className="outcome-card" key={outcome.id}>
-                  <span className="code">{outcome.code}</span>
-                  <p>{outcome.description}</p>
-                  <div className="card-actions">
+                <article className="rounded-xl border border-line bg-panel p-[18px]" key={outcome.id}>
+                  <span className="text-xs font-bold tracking-[0.06em] text-accent">{outcome.code}</span>
+                  <p className="mt-3 text-[13px] leading-relaxed text-[#d4d4d4]">{outcome.description}</p>
+                  <div className="mt-4 flex items-center gap-2.5">
                     <button
                       type="button"
-                      className="text-button"
+                      className="rounded-md border border-transparent px-3 py-2 text-xs font-bold text-accent hover:bg-[#2a211c]"
                       onClick={() =>
                         setForm({ type: "outcome", item: outcome })
                       }
@@ -257,7 +257,7 @@ export default function CourseWorkspace({ courseId, navigate }) {
                     </button>
                     <button
                       type="button"
-                      className="danger-button"
+                      className="rounded-md border border-[#613b3b] px-3 py-2 text-xs font-bold text-red-400 hover:bg-[#2a1414]"
                       onClick={() => remove("outcome", outcome, outcome.code)}
                     >
                       Delete
@@ -272,14 +272,14 @@ export default function CourseWorkspace({ courseId, navigate }) {
         </section>
       }
       <section>
-        <div className="section-head">
+        <div className="mb-3.5 flex items-end justify-between gap-5">
           <div>
             <h2>Student Performance</h2>
             <p>Marks recorded for every course outcome.</p>
           </div>
           <button
             type="button"
-            className="primary-button"
+            className="rounded-md bg-accent px-4 py-2.5 text-[13px] font-bold text-white hover:bg-accent-hover"
             onClick={() => setForm({ type: "score" })}
           >
             Add score

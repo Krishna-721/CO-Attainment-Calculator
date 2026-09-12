@@ -55,20 +55,20 @@ export default function Students() {
       .includes(query.toLowerCase()),
   );
   return (
-    <div className="page">
-      <div className="page-title">
-        <span>ACADEMIC</span>
-        <h1>Students</h1>
-        <p>Browse enrolled students and their roll numbers.</p>
+    <div className="grid w-full max-w-[1320px] gap-7">
+      <div>
+        <span className="text-[10px] font-bold tracking-[0.16em] text-subtle">ACADEMIC</span>
+        <h1 className="my-1.5 text-[28px] leading-tight">Students</h1>
+        <p className="m-0 text-sm text-muted">Browse enrolled students and their roll numbers.</p>
       </div>
-      <div className="section-head">
+      <div className="flex items-end justify-between gap-5">
         <div>
           <h2>Enrolment</h2>
           <p>Maintain the students used in attainment calculations.</p>
         </div>
         <button
           type="button"
-          className="primary-button"
+          className="rounded-md bg-accent px-4 py-2.5 text-[13px] font-bold text-white hover:bg-accent-hover"
           onClick={() => setForm({})}
         >
           Add student
@@ -100,7 +100,7 @@ export default function Students() {
       ) : (
         students && (
           <>
-            <label className="filter">
+            <label className="grid w-full max-w-[430px] gap-1.5 rounded-xl border border-line bg-panel p-3.5 text-xs text-muted">
               <span>Search students</span>
               <input
                 value={query}
@@ -109,31 +109,31 @@ export default function Students() {
               />
             </label>
             {filtered.length ? (
-              <div className="table-wrap">
-                <table>
+              <div               className="overflow-x-auto rounded-xl border border-line bg-panel">
+                <table className="w-full min-w-[620px] border-collapse text-[13px]">
                   <thead>
                     <tr>
-                      <th>Roll Number</th>
-                      <th>Name</th>
-                      <th>Actions</th>
+                      <th className="bg-[#202020] p-3 text-left text-[10px] tracking-[0.08em] text-muted">Roll Number</th>
+                      <th className="bg-[#202020] p-3 text-left text-[10px] tracking-[0.08em] text-muted">Name</th>
+                      <th className="bg-[#202020] p-3 text-left text-[10px] tracking-[0.08em] text-muted">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filtered.map((student) => (
                       <tr key={student.id}>
-                        <td className="roll">{student.roll_number}</td>
-                        <td>{student.name}</td>
-                        <td className="row-actions">
+                        <td className="border-t border-line p-3.5 font-bold text-accent">{student.roll_number}</td>
+                        <td className="border-t border-line p-3.5 text-[#e5e5e5]">{student.name}</td>
+                        <td className="flex items-center gap-2 whitespace-nowrap border-t border-line p-2.5">
                           <button
                             type="button"
-                            className="text-button"
+                            className="rounded-md border border-transparent px-3 py-2 text-xs font-bold text-accent hover:bg-[#2a211c]"
                             onClick={() => setForm({ student })}
                           >
                             Edit
                           </button>
                           <button
                             type="button"
-                            className="danger-button"
+                            className="rounded-md border border-[#613b3b] px-3 py-2 text-xs font-bold text-red-400 hover:bg-[#2a1414]"
                             onClick={() => remove(student)}
                           >
                             Delete

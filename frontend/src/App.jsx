@@ -50,19 +50,20 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="app-shell">
+    <div className="flex min-h-screen">
       <div
-        className={menuOpen ? "mobile-overlay visible" : "mobile-overlay"}
+        className={`fixed inset-0 z-20 bg-black/60 ${menuOpen ? "block" : "hidden"} md:hidden`}
         onClick={() => setMenuOpen(false)}
       />
       <Sidebar
         path={path}
         navigate={navigate}
         close={() => setMenuOpen(false)}
+        open={menuOpen}
       />
-      <div className="app-content">
+      <div className="min-w-0 flex-1">
         <Header onMenu={() => setMenuOpen(true)} />
-        <main>{getPage(path, navigate)}</main>
+        <main className="mx-auto max-w-[1450px] p-4 sm:p-6 lg:p-9">{getPage(path, navigate)}</main>
       </div>
     </div>
   );
