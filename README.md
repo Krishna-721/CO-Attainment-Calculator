@@ -54,8 +54,10 @@ rubrix-co-attainment/
 │   │   ├── pages/
 │   │   ├── services/
 │   │   ├── App.jsx
+│   │   ├── main.jsx
 │   │   ├── index.css
 │   │   └── layout.css
+│   ├── .env.example
 │   ├── package.json
 │   └── vite.config.js
 └── README.md
@@ -214,7 +216,7 @@ Interactive API documentation is available at:
 http://127.0.0.1:8000/docs
 ```
 
-The backend automatically initializes the SQLite database when it starts.
+The backend automatically initializes the configured database when it starts.
 
 ### Seed Development Data
 
@@ -238,7 +240,7 @@ npm install
 npm run dev
 ```
 
-The frontend runs at `http://127.0.0.1:5173` or the next available Vite port.
+The frontend runs at `http://127.0.0.1:3000` or the next available Vite port.
 
 The frontend uses the backend URL from `VITE_API_BASE_URL`. Create a
 `frontend/.env` file when a different API URL is required:
@@ -250,14 +252,14 @@ VITE_API_BASE_URL=http://127.0.0.1:8000
 The default backend CORS origins are:
 
 ```text
-http://localhost:5173
-http://127.0.0.1:5173
+http://localhost:3000
+http://127.0.0.1:3000
 ```
 
 Add custom origins with a comma-separated `CORS_ORIGINS` environment variable:
 
 ```powershell
-$env:CORS_ORIGINS="http://localhost:5173,http://127.0.0.1:5173"
+$env:CORS_ORIGINS="http://localhost:3000,http://127.0.0.1:3000"
 ```
 
 ## Frontend Routes
